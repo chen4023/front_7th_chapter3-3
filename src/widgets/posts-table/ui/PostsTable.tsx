@@ -10,27 +10,21 @@ import {
 } from "@/shared/ui"
 import { highlightText } from "@/shared/lib"
 import { Post } from "@/entities/post"
-import { useDeletePostMutation } from "@/features/post"
+import {
+  useDeletePostMutation,
+  usePostsFilterStore,
+  usePostDialogStore,
+  useUserModalStore,
+} from "@/features/post"
 
 interface PostsTableProps {
   posts: Post[]
-  searchQuery: string
-  selectedTag: string
-  onTagClick: (tag: string) => void
-  onPostDetail: (post: Post) => void
-  onEditPost: (post: Post) => void
-  onUserClick: (user: Post["author"]) => void
 }
 
-export const PostsTable = ({
-  posts,
-  searchQuery,
-  selectedTag,
-  onTagClick,
-  onPostDetail,
-  onEditPost,
-  onUserClick,
-}: PostsTableProps) => {
+export const PostsTable = ({ posts }: PostsTableProps) => {
+  const { activeSearch, selectedTag, setSelectedTag } = usePostsFilterStore()
+  const { openEditDialog, openPostDetailDialog } = usePostDialogStore()
+  const { openUserModal } = useUserModalStore()
   const { mutate: deletePost } = useDeletePostMutation()
 
   return (
@@ -50,7 +44,7 @@ export const PostsTable = ({
             <TableCell>{post.id}</TableCell>
             <TableCell>
               <div className="space-y-1">
-                <div>{highlightText(post.title, searchQuery)}</div>
+                <div>{highlightText(post.title, activeSearch)}</div>
                 <div className="flex flex-wrap gap-1">
                   {post.tags?.map((tag) => (
                     <span
@@ -60,7 +54,7 @@ export const PostsTable = ({
                           ? "text-white bg-blue-500 hover:bg-blue-600"
                           : "text-blue-800 bg-blue-100 hover:bg-blue-200"
                       }`}
-                      onClick={() => onTagClick(tag)}
+                      onClick={() => setSelectedTag(tag)}
                     >
                       {tag}
                     </span>
@@ -71,7 +65,7 @@ export const PostsTable = ({
             <TableCell>
               <div
                 className="flex items-center space-x-2 cursor-pointer"
-                onClick={() => onUserClick(post.author)}
+                onClick={() => post.author && openUserModal(post.author.id)}
               >
                 <img
                   src={post.author?.image}
@@ -94,14 +88,14 @@ export const PostsTable = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => onPostDetail(post)}
+                  onClick={() => openPostDetailDialog(post)}
                 >
                   <MessageSquare className="w-4 h-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => onEditPost(post)}
+                  onClick={() => openEditDialog(post)}
                 >
                   <Edit2 className="w-4 h-4" />
                 </Button>
@@ -120,4 +114,3 @@ export const PostsTable = ({
     </Table>
   )
 }
-

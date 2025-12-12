@@ -8,14 +8,11 @@ import {
   Input,
   Textarea,
 } from "@/shared/ui"
+import { usePostDialogStore } from "../../model/store"
 import { useAddPostMutation } from "../api/useAddPostMutation"
 
-interface AddPostDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-
-export const AddPostDialog = ({ open, onOpenChange }: AddPostDialogProps) => {
+export const AddPostDialog = () => {
+  const { showAddDialog, closeAddDialog } = usePostDialogStore()
   const [newPost, setNewPost] = useState({
     title: "",
     body: "",
@@ -27,14 +24,14 @@ export const AddPostDialog = ({ open, onOpenChange }: AddPostDialogProps) => {
   const handleSubmit = () => {
     addPost(newPost, {
       onSuccess: () => {
-        onOpenChange(false)
+        closeAddDialog()
         setNewPost({ title: "", body: "", userId: 1 })
       },
     })
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={showAddDialog} onOpenChange={closeAddDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>새 게시물 추가</DialogTitle>
@@ -67,4 +64,3 @@ export const AddPostDialog = ({ open, onOpenChange }: AddPostDialogProps) => {
     </Dialog>
   )
 }
-

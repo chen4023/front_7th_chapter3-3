@@ -5,18 +5,14 @@ import {
   DialogTitle,
 } from "@/shared/ui"
 import { User, useUserQuery } from "@/entities/user"
+import { useUserModalStore } from "@/features/post"
 
-interface UserModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  userId: number | null
-}
-
-export const UserModal = ({ open, onOpenChange, userId }: UserModalProps) => {
-  const { data: user, isLoading } = useUserQuery(userId)
+export const UserModal = () => {
+  const { showUserModal, selectedUserId, closeUserModal } = useUserModalStore()
+  const { data: user, isLoading } = useUserQuery(selectedUserId)
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={showUserModal} onOpenChange={closeUserModal}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>사용자 정보</DialogTitle>
@@ -62,4 +58,3 @@ const UserInfo = ({ user }: { user: User }) => (
     </div>
   </div>
 )
-

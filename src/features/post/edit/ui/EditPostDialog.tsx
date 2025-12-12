@@ -8,20 +8,11 @@ import {
   Input,
   Textarea,
 } from "@/shared/ui"
-import { Post } from "@/entities/post"
+import { usePostDialogStore } from "../../model/store"
 import { useUpdatePostMutation } from "../api/useUpdatePostMutation"
 
-interface EditPostDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  post: Post | null
-}
-
-export const EditPostDialog = ({
-  open,
-  onOpenChange,
-  post,
-}: EditPostDialogProps) => {
+export const EditPostDialog = () => {
+  const { showEditDialog, selectedPost, closeEditDialog } = usePostDialogStore()
   const [editedPost, setEditedPost] = useState<{
     title: string
     body: string
@@ -33,28 +24,28 @@ export const EditPostDialog = ({
   const { mutate: updatePost, isPending } = useUpdatePostMutation()
 
   useEffect(() => {
-    if (post) {
+    if (selectedPost) {
       setEditedPost({
-        title: post.title,
-        body: post.body,
+        title: selectedPost.title,
+        body: selectedPost.body,
       })
     }
-  }, [post])
+  }, [selectedPost])
 
   const handleSubmit = () => {
-    if (!post) return
+    if (!selectedPost) return
     updatePost(
-      { id: post.id, ...editedPost },
+      { id: selectedPost.id, ...editedPost },
       {
         onSuccess: () => {
-          onOpenChange(false)
+          closeEditDialog()
         },
       },
     )
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={showEditDialog} onOpenChange={closeEditDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>게시물 수정</DialogTitle>
@@ -83,4 +74,3 @@ export const EditPostDialog = ({
     </Dialog>
   )
 }
-

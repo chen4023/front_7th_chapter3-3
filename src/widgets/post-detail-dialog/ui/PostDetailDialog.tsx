@@ -5,36 +5,29 @@ import {
   DialogTitle,
 } from "@/shared/ui"
 import { highlightText } from "@/shared/lib"
-import { Post } from "@/entities/post"
+import { usePostDialogStore, usePostsFilterStore } from "@/features/post"
 import { CommentsList } from "./CommentsList"
 
-interface PostDetailDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  post: Post | null
-  searchQuery: string
-}
+export const PostDetailDialog = () => {
+  const { showPostDetailDialog, selectedPost, closePostDetailDialog } =
+    usePostDialogStore()
+  const { activeSearch } = usePostsFilterStore()
 
-export const PostDetailDialog = ({
-  open,
-  onOpenChange,
-  post,
-  searchQuery,
-}: PostDetailDialogProps) => {
-  if (!post) return null
+  if (!selectedPost) return null
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={showPostDetailDialog} onOpenChange={closePostDetailDialog}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle>{highlightText(post.title, searchQuery)}</DialogTitle>
+          <DialogTitle>
+            {highlightText(selectedPost.title, activeSearch)}
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>{highlightText(post.body, searchQuery)}</p>
-          <CommentsList postId={post.id} searchQuery={searchQuery} />
+          <p>{highlightText(selectedPost.body, activeSearch)}</p>
+          <CommentsList postId={selectedPost.id} />
         </div>
       </DialogContent>
     </Dialog>
   )
 }
-

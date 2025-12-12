@@ -3,6 +3,7 @@ import { Edit2, Plus, ThumbsUp, Trash2 } from "lucide-react"
 import { Button } from "@/shared/ui"
 import { highlightText } from "@/shared/lib"
 import { Comment, useCommentsQuery } from "@/entities/comment"
+import { usePostsFilterStore } from "@/features/post"
 import {
   useDeleteCommentMutation,
   useLikeCommentMutation,
@@ -12,14 +13,14 @@ import {
 
 interface CommentsListProps {
   postId: number
-  searchQuery: string
 }
 
-export const CommentsList = ({ postId, searchQuery }: CommentsListProps) => {
+export const CommentsList = ({ postId }: CommentsListProps) => {
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null)
 
+  const { activeSearch } = usePostsFilterStore()
   const { data } = useCommentsQuery(postId)
   const { mutate: deleteComment } = useDeleteCommentMutation()
   const { mutate: likeComment } = useLikeCommentMutation()
@@ -51,7 +52,7 @@ export const CommentsList = ({ postId, searchQuery }: CommentsListProps) => {
                 {comment.user.username}:
               </span>
               <span className="truncate">
-                {highlightText(comment.body, searchQuery)}
+                {highlightText(comment.body, activeSearch)}
               </span>
             </div>
             <div className="flex items-center space-x-1">
@@ -102,4 +103,3 @@ export const CommentsList = ({ postId, searchQuery }: CommentsListProps) => {
     </div>
   )
 }
-
