@@ -1,7 +1,9 @@
 import axios from "axios"
 
+const isProd = import.meta.env.PROD
+
 export const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: isProd ? "https://dummyjson.com" : "/api",
   headers: {
     "Content-Type": "application/json",
   },
