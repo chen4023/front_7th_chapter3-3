@@ -1,0 +1,2 @@
+export { highlightText } from "./highlightText"
+
