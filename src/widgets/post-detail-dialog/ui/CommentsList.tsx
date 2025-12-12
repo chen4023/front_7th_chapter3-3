@@ -3,7 +3,7 @@ import { Edit2, Plus, ThumbsUp, Trash2 } from "lucide-react"
 import { Button } from "@/shared/ui"
 import { highlightText } from "@/shared/lib"
 import { Comment, useCommentsQuery } from "@/entities/comment"
-import { usePostsFilterStore } from "@/features/post"
+import { useSearchStore } from "@/features/post"
 import {
   useDeleteCommentMutation,
   useLikeCommentMutation,
@@ -20,7 +20,7 @@ export const CommentsList = ({ postId }: CommentsListProps) => {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null)
 
-  const { activeSearch } = usePostsFilterStore()
+  const { activeSearch } = useSearchStore()
   const { data } = useCommentsQuery(postId)
   const { mutate: deleteComment } = useDeleteCommentMutation()
   const { mutate: likeComment } = useLikeCommentMutation()

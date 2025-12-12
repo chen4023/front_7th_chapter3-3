@@ -5,10 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui"
-import { usePostsFilterStore } from "../../model/store"
+import { useFilterStore } from "../model/store"
 
 export const SortFilter = () => {
-  const { sortBy, sortOrder, setSortBy, setSortOrder } = usePostsFilterStore()
+  const { sortBy, sortOrder, setSortBy, setSortOrder } = useFilterStore()
 
   return (
     <>
@@ -35,4 +35,3 @@ export const SortFilter = () => {
     </>
   )
 }
-

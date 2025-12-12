@@ -14,7 +14,9 @@ import {
   Pagination,
   AddPostDialog,
   EditPostDialog,
-  usePostsFilterStore,
+  useSearchStore,
+  useFilterStore,
+  usePaginationStore,
   usePostDialogStore,
 } from "@/features/post"
 import { PostsTable } from "@/widgets/posts-table"
@@ -22,8 +24,10 @@ import { PostDetailDialog } from "@/widgets/post-detail-dialog"
 import { UserModal } from "@/widgets/user-modal"
 
 const PostsManagerPage = () => {
-  // Zustand Store
-  const { skip, limit, activeSearch, selectedTag } = usePostsFilterStore()
+  // Zustand Stores
+  const { activeSearch } = useSearchStore()
+  const { selectedTag } = useFilterStore()
+  const { skip, limit } = usePaginationStore()
   const { openAddDialog } = usePostDialogStore()
 
   // Queries

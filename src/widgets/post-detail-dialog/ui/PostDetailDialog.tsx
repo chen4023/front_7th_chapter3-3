@@ -5,13 +5,13 @@ import {
   DialogTitle,
 } from "@/shared/ui"
 import { highlightText } from "@/shared/lib"
-import { usePostDialogStore, usePostsFilterStore } from "@/features/post"
+import { usePostDialogStore, useSearchStore } from "@/features/post"
 import { CommentsList } from "./CommentsList"
 
 export const PostDetailDialog = () => {
   const { showPostDetailDialog, selectedPost, closePostDetailDialog } =
     usePostDialogStore()
-  const { activeSearch } = usePostsFilterStore()
+  const { activeSearch } = useSearchStore()
 
   if (!selectedPost) return null
 

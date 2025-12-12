@@ -6,14 +6,24 @@ import {
   SelectValue,
 } from "@/shared/ui"
 import { useTagsQuery } from "@/entities/tag"
-import { usePostsFilterStore } from "../../model/store"
+import { useFilterStore } from "../model/store"
+import { useSearchStore } from "../../search/model/store"
+import { usePaginationStore } from "../../pagination/model/store"
 
 export const TagFilter = () => {
-  const { selectedTag, setSelectedTag } = usePostsFilterStore()
+  const { selectedTag, setSelectedTag } = useFilterStore()
+  const { resetSearch } = useSearchStore()
+  const { resetPagination } = usePaginationStore()
   const { data: tags = [] } = useTagsQuery()
 
+  const handleTagChange = (tag: string) => {
+    setSelectedTag(tag)
+    resetSearch()
+    resetPagination()
+  }
+
   return (
-    <Select value={selectedTag} onValueChange={setSelectedTag}>
+    <Select value={selectedTag} onValueChange={handleTagChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="태그 선택" />
       </SelectTrigger>
@@ -28,4 +38,3 @@ export const TagFilter = () => {
     </Select>
   )
 }
-

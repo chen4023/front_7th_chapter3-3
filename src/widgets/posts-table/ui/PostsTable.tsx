@@ -12,17 +12,19 @@ import { highlightText } from "@/shared/lib"
 import { Post } from "@/entities/post"
 import {
   useDeletePostMutation,
-  usePostsFilterStore,
+  useSearchStore,
+  useFilterStore,
   usePostDialogStore,
-  useUserModalStore,
 } from "@/features/post"
+import { useUserModalStore } from "@/features/user"
 
 interface PostsTableProps {
   posts: Post[]
 }
 
 export const PostsTable = ({ posts }: PostsTableProps) => {
-  const { activeSearch, selectedTag, setSelectedTag } = usePostsFilterStore()
+  const { activeSearch } = useSearchStore()
+  const { selectedTag, setSelectedTag } = useFilterStore()
   const { openEditDialog, openPostDetailDialog } = usePostDialogStore()
   const { openUserModal } = useUserModalStore()
   const { mutate: deletePost } = useDeletePostMutation()

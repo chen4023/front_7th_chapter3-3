@@ -6,14 +6,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui"
-import { usePostsFilterStore } from "../../model/store"
+import { usePaginationStore } from "../model/store"
 
 interface PaginationProps {
   total: number
 }
 
 export const Pagination = ({ total }: PaginationProps) => {
-  const { skip, limit, setSkip, setLimit } = usePostsFilterStore()
+  const { skip, limit, setSkip, setLimit } = usePaginationStore()
 
   return (
     <div className="flex justify-between items-center">
@@ -51,4 +51,3 @@ export const Pagination = ({ total }: PaginationProps) => {
     </div>
   )
 }
-

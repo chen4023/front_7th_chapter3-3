@@ -8,7 +8,7 @@ import {
   Input,
   Textarea,
 } from "@/shared/ui"
-import { usePostDialogStore } from "../../model/store"
+import { usePostDialogStore } from "../../dialog/model/store"
 import { useUpdatePostMutation } from "../api/useUpdatePostMutation"
 
 export const EditPostDialog = () => {

@@ -1,9 +1,9 @@
 import { Search } from "lucide-react"
 import { Input } from "@/shared/ui"
-import { usePostsFilterStore } from "../../model/store"
+import { useSearchStore } from "../model/store"
 
 export const SearchInput = () => {
-  const { searchQuery, setSearchQuery, executeSearch } = usePostsFilterStore()
+  const { searchQuery, setSearchQuery, executeSearch } = useSearchStore()
 
   return (
     <div className="flex-1">
@@ -20,4 +20,3 @@ export const SearchInput = () => {
     </div>
   )
 }
-

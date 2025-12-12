@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/shared/ui"
 import { User, useUserQuery } from "@/entities/user"
-import { useUserModalStore } from "@/features/post"
+import { useUserModalStore } from "@/features/user"
 
 export const UserModal = () => {
   const { showUserModal, selectedUserId, closeUserModal } = useUserModalStore()
