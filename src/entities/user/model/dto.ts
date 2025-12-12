@@ -1,0 +1,28 @@
+// Response DTOs
+export interface UserDto {
+  id: number
+  username: string
+  image: string
+  firstName?: string
+  lastName?: string
+  age?: number
+  email?: string
+  phone?: string
+  address?: {
+    address: string
+    city: string
+    state: string
+  }
+  company?: {
+    name: string
+    title: string
+  }
+}
+
+export interface UsersResponseDto {
+  users: UserDto[]
+  total: number
+  skip: number
+  limit: number
+}
+
