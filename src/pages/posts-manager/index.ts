@@ -1,2 +1,1 @@
-export { default as PostsManagerPage } from "./ui/PostsManagerPage"
-
+export { default as PostsManagerPage } from "./PostsManagerPage"

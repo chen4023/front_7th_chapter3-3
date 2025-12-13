@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui"
-import { usePostsQuery, usePostsByTagQuery, useSearchPostsQuery } from "@/entities/post"
 import {
   SearchInput,
   TagFilter,
@@ -14,44 +13,16 @@ import {
   Pagination,
   AddPostDialog,
   EditPostDialog,
-  useSearchStore,
-  useFilterStore,
-  usePaginationStore,
   usePostDialogStore,
+  usePostsData,
 } from "@/features/post"
 import { PostsTable } from "@/widgets/posts-table"
 import { PostDetailDialog } from "@/widgets/post-detail-dialog"
 import { UserModal } from "@/widgets/user-modal"
 
 const PostsManagerPage = () => {
-  // Zustand Stores
-  const { activeSearch } = useSearchStore()
-  const { selectedTag } = useFilterStore()
-  const { skip, limit } = usePaginationStore()
   const { openAddDialog } = usePostDialogStore()
-
-  // Queries
-  const { data: postsData, isLoading: isPostsLoading } = usePostsQuery({
-    limit,
-    skip,
-  })
-
-  const { data: tagPostsData, isLoading: isTagPostsLoading } =
-    usePostsByTagQuery(selectedTag)
-
-  const { data: searchData, isLoading: isSearchLoading } =
-    useSearchPostsQuery(activeSearch)
-
-  // 현재 표시할 데이터 결정
-  const currentData = activeSearch
-    ? searchData
-    : selectedTag && selectedTag !== "all"
-      ? tagPostsData
-      : postsData
-
-  const posts = currentData?.posts || []
-  const total = currentData?.total || 0
-  const isLoading = isPostsLoading || isTagPostsLoading || isSearchLoading
+  const { posts, total, isLoading } = usePostsData()
 
   return (
     <Card className="w-full max-w-6xl mx-auto">

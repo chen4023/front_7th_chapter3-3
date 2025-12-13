@@ -14,3 +14,6 @@ export { Pagination, usePaginationStore } from "./pagination"
 
 // Dialog Feature
 export { usePostDialogStore } from "./dialog"
+
+// List Feature (Data Fetching + Sorting)
+export { usePostsData } from "./list"
